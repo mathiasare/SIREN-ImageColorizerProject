@@ -1,0 +1,11 @@
+** Planification 19/11 **
+
+# First results
+
+After messing around with the coloring model from https://medium.com/@emilwallner/colorize-b-w-photos-with-a-100-line-neural-network-53d9b4449f8d we eventually achieved something:
+- 1000 epochs with only one picture to train and test
+
+<img src="train_0.jpg" style="width: 100%; float: right; margin-left: 1em;">
+<img src="res_0.jpg" style="width: 100%; float: right; margin-left: 1em;">
+
+
