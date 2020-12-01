@@ -9,3 +9,5 @@ The result
 <img src="res_0.png" style="width: 100%; float: right; margin-left: 1em;">
 
 
+*(!pip install tensorflow==1.14.0)*
+*(!pip install keras==2.1.6)*
