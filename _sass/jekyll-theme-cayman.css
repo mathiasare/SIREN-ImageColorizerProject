@@ -767,8 +767,7 @@ a:hover {
 .page-header {
   color: #fff;
   text-align: center;
-  background-color: #159957;
-  background-image: url("./assets/thumbnail.jpg");
+  background-image: url("/assets/thumbnail.jpg");
 }
 
 @media screen and (min-width: 64em) {
