@@ -1,4 +1,4 @@
-## Welcome to GitHub Pages
+## Experiments with SIREN Image Manipulation
 
 You can use the [editor on GitHub](https://github.com/mathiasare/SIREN-ImageColorizerProject/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
