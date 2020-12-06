@@ -37,10 +37,9 @@ After messing around with the coloring model from [emil_wallner](https://medium.
 - 1000 epochs with only one picture to train and test
 
 The initial photo/ testing image /result
-[Train photo](<https://github.com/mathiasare/SIREN-ImageColorizerProject/blob/master/ze%20net%20results/train_0.jpg>)
-[Test photo](https://github.com/mathiasare/SIREN-ImageColorizerProject/blob/master/ze%20net%20results/test_0.jpg)
+![Train photo](<https://github.com/mathiasare/SIREN-ImageColorizerProject/blob/master/ze%20net%20results/train_0.jpg>)
+![Test photo](https://github.com/mathiasare/SIREN-ImageColorizerProject/blob/master/ze%20net%20results/test_0.jpg)
 ![Result](https://github.com/mathiasare/SIREN-ImageColorizerProject/blob/master/ze%20net%20results/res_0.png)
-<img src="https://github.com/mathiasare/SIREN-ImageColorizerProject/blob/master/ze%20net%20results/res_0.png" class="img-responsive" alt=""> </div>
 
 _in wish to make the model run in one's computer use tensorflow 1.14.0 and keras 2.1.6_
 *(!pip install tensorflow==1.14.0)* *(!pip install keras==2.1.6)*
