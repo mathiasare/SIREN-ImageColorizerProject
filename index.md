@@ -106,7 +106,7 @@ _in wish to make the model run in one's computer use tensorflow 1.14.0 and keras
 
 ### Large image
 
-![Branching](https://guides.github.com/activities/hello-world/branching.png)
+![SomePicture](./thumbnail.png)
 
 
 ### Definition lists can be used with HTML syntax.
