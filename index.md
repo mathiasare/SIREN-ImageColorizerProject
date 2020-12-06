@@ -31,14 +31,14 @@ The original SIREN paper github link: https://github.com/vsitzmann/siren
 
 ### First results without SIREN
 
-After messing around with the coloring model from https://medium.com/@emilwallner/colorize-b-w-photos-with-a-100-line-neural-network-53d9b4449f8d we eventually achieved something:
+After messing around with the coloring model from [emil_wallner](https://medium.com/@emilwallner/colorize-b-w-photos-with-a-100-line-neural-network-53d9b4449f8d) we eventually achieved something:
 - 1000 epochs with only one picture to train and test
 
 The initial photo/ testing image /result
+![Train photo](https://github.com/mathiasare/SIREN-ImageColorizerProject/blob/master/ze%20net%20results/train_0.jpg)
+![Test photo](https://github.com/mathiasare/SIREN-ImageColorizerProject/blob/master/ze%20net%20results/test_0.jpg)
+![Result](https://github.com/mathiasare/SIREN-ImageColorizerProject/blob/master/ze%20net%20results/res_0.png)
 
-<img src="<https://github.com/mathiasare/SIREN-ImageColorizerProject/blob/master/ze%20net%20results/train_0.jpg>" style="width: 50%; float: left; margin-left: 1em;">
-<img src="https://github.com/mathiasare/SIREN-ImageColorizerProject/blob/master/ze%20net%20results/test_0.jpg" style="width: 50%; float: center; margin-left: 1em;">
-<img src="https://github.com/mathiasare/SIREN-ImageColorizerProject/blob/master/ze%20net%20results/res_0.png" style="width: 50%; float: right; margin-left: 1em;">
 
 _in wish to make the model run in one's computer use tensorflow 1.14.0 and keras 2.1.6_
 *(!pip install tensorflow==1.14.0)* *(!pip install keras==2.1.6)*
