@@ -7,8 +7,8 @@ layout: default
 
 # INTRODUCTION
 
-The grand aim of this project is to build or reuse an image colorization neural network while using SIREN activation function instead. 
-SIREN is a periodic activation function described in [^sitz]. It has proven better results in fitting images, videos, audio signal, solving Poission equations etc than other exsisting activation functions. So, the question rose- can we use it in a neural network based model to colorize images. Furthermore, not only to use  it but will it perform better then for example much exploited _relu_ activation function.
+The grand aim of this project is to build or reuse an image colorization neural network while using SIREN activation function instead.
+SIREN is a periodic activation function described in [^sitz]. It has proven better results in fitting images, videos, audio signal, solving Poission equations etc than other existing activation functions. So, the question rose- can we use it in a neural network based model to colorize images. Furthermore, not only to use  it but will it perform better then for example much exploited _relu_ activation function.
 
 The project is divided into three phases:
 1. Experimenting with SIREN in the given Collab environment and getting acqainted with the concept.
@@ -22,6 +22,28 @@ The original SIREN paper github link: https://github.com/vsitzmann/siren
 >
 > When something is important enough, you do it even if the odds are not in your favor.
 
+SIREN models use sinus as activation functions. Models build with SIREN are stable through gradient operation: if a model is trained an output, then the gradient of the output is also close from the aimed output.
+
+This means that SIREN models trained to output an image will provide an output that also has a gradient -and laplacian- close to the aimed image.
+
+![SIREN_gradient](imgs/SIREN_gradient_stable.png)
+
+This stability of SIREN models is useful in performing operations on the output of SIREN models: the Fourier transform is compatible with SIREN models (it can be applied to the output of SIREN models), differential equations can be solved with SIREN because the derivative of functions are computed correctly through SIREN, ...
+
+
+
+The fundamental use of SIREN models is to store images: a model is trained to output the value of the image on one pixel from the coordinates of the pixel as input. This means that the image is stored within the model, and can be resized at will. One interesting application is to merge images together: a model is trained to output an image which gradient will be the mean of 2 images. In the paper, this experiment was successful on gray images.
+
+![SIREN_gradient](imgs/SIREN_merging_gray.png)
+
+The resulting image is realistic, since it focuses on the main elements of each image.
+
+
+Another application of SIREN models is the representation of shapes: the model will store a specific shape, trying to be as realistic as possible.
+
+![SIREN_gradient](imgs/SIREN_shape.png)
+
+We notice that SIREN results in a smoother result than other activation functions.
 
 [^sitz]: Sitzmann, Vincent and Martel, Julien N.P. and Bergman, Alexander W. and Lindell, David B. and Wetzstein, Gordon, Implicit Neural Representations with Periodic Activation Functions, https://arxiv.org/pdf/2006.09661.pdf, 2020
 
@@ -43,6 +65,31 @@ The result
 *(!pip install tensorflow==1.14.0)*
 *(!pip install keras==2.1.6)*
 
+
+
+### First results with SIREN models: basic image representation
+
+#### Steps of transformation
+
+We consider image A and image B, we want to obtain image C as a mix of the 2 initial images. If we merge the images pixel by pixel, we will obtain new colors which we do not want. instead, we want only the main elements of each image to be present. Therefore, we are going to merge the gradients of the 2 images, and then build the image associated to this gradient. This operation does not require the use of SIREN networks. However, it is possible to use them as a storage format of each image.
+
+![Model](SIREN_merging.png)
+
+#### First test: merging 2 black and white images
+
+We take 2 images 128*128 in black and white and merge them together. The results for each image are:
+- image outputted by SIREN model
+- gradient off the output
+- laplacian of the output
+
+The images we show are image A, B, and C.
+
+![image_A_bw](imgs/image_A_bw.png)
+![image_B_bw](imgs/image_B_bw.png)
+![image_C_bw](imgs/image_C_bw.png)
+
+
+We see that the resulting image has the details of both images. Since the elements are in the same positions in each image, it results is transparent shapes.
 
 #### Header 4
 
