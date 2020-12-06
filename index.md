@@ -36,7 +36,7 @@ After messing around with the coloring model from https://medium.com/@emilwallne
 
 The initial photo/ testing image /result
 
-<img src="https://github.com/mathiasare/SIREN-ImageColorizerProject/blob/master/ze%20net%20results/train_0.jpg" style="width: 50%; float: left; margin-left: 1em;">
+<img src="<https://github.com/mathiasare/SIREN-ImageColorizerProject/blob/master/ze%20net%20results/train_0.jpg>" style="width: 50%; float: left; margin-left: 1em;">
 <img src="https://github.com/mathiasare/SIREN-ImageColorizerProject/blob/master/ze%20net%20results/test_0.jpg" style="width: 50%; float: center; margin-left: 1em;">
 <img src="https://github.com/mathiasare/SIREN-ImageColorizerProject/blob/master/ze%20net%20results/res_0.png" style="width: 50%; float: right; margin-left: 1em;">
 
