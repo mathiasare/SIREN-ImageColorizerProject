@@ -8,7 +8,7 @@ layout: default
 # INTRODUCTION
 
 The grand aim of this project is to build or reuse an image colorization neural network while using SIREN activation function instead. 
-SIREN is a periodic activation function described in [@sitzmann2019siren] 
+SIREN is a periodic activation function described in [^sitz]
 
 
 https://github.com/vsitzmann/siren
@@ -26,19 +26,7 @@ The project is divided into three phases:
 
 # References
 ---
-references:
-- id: sitzmann2019siren
-  title:Implicit Neural Representations with Periodic Activation Functions
-  author:
-  - authors: Sitzmann, Vincent
-              and Martel, Julien N.P.
-              and Bergman, Alexander W.
-              and Lindell, David B.
-              and Wetzstein, Gordon
-  URL: 'https://arxiv.org/pdf/2006.09661.pdf'
-  type: arXiv
-  issued:
-    year: 2020
+[^sitz]: Sitzmann, Vincent and Martel, Julien N.P. and Bergman, Alexander W. and Lindell, David B. and Wetzstein, Gordon, Implicit Neural Representations with Periodic Activation Functions, https://arxiv.org/pdf/2006.09661.pdf, 2020
 ---
 ### Header 3
 
