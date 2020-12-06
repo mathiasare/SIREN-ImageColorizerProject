@@ -8,42 +8,41 @@ layout: default
 # INTRODUCTION
 
 The grand aim of this project is to build or reuse an image colorization neural network while using SIREN activation function instead. 
-SIREN is a periodic activation function described in [^sitz]
+SIREN is a periodic activation function described in [^sitz]. It has proven better results in fitting images, videos, audio signal, solving Poission equations etc than other exsisting activation functions. So, the question rose- can we use it in a neural network based model to colorize images. Furthermore, not only to use  it but will it perform better then for example much exploited _relu_ activation function.
 
-
-https://github.com/vsitzmann/siren
 The project is divided into three phases:
-1. Experimenting with SIREN in the given Collab environment.
+1. Experimenting with SIREN in the given Collab environment and getting acqainted with the concept.
 2. Trying out b/w image colorization, merging and resizing.
 3. **Building the SIREN based NN to colorize images**
 
-
+The original SIREN paper github link: https://github.com/vsitzmann/siren
 # BACKGROUND
 
 > This is a blockquote following a header.
 >
 > When something is important enough, you do it even if the odds are not in your favor.
 
-# References
----
+
 [^sitz]: Sitzmann, Vincent and Martel, Julien N.P. and Bergman, Alexander W. and Lindell, David B. and Wetzstein, Gordon, Implicit Neural Representations with Periodic Activation Functions, https://arxiv.org/pdf/2006.09661.pdf, 2020
----
-### Header 3
 
-```js
-// Javascript code with syntax highlighting.
-var fun = function lang(l) {
-  dateformat.i18n = require('./lang/' + l)
-  return true;
-}
-```
+# RESULTS
 
-```ruby
-# Ruby code with syntax highlighting
-GitHubPages::Dependencies.gems.each do |gem, version|
-  s.add_dependency(gem, "= #{version}")
-end
-```
+## Reusing model
+
+### First results without SIREN
+
+After messing around with the coloring model from https://medium.com/@emilwallner/colorize-b-w-photos-with-a-100-line-neural-network-53d9b4449f8d we eventually achieved something:
+- 1000 epochs with only one picture to train and test
+
+The initial photo
+<img src="/SIREN-ImageColorizerProject/tree/master/ze%20net%20results/train_0.jpg" style="width: 100%; float: left; margin-left: 1em;">
+The result
+<img src="/SIREN-ImageColorizerProject/tree/master/ze%20net%20results/res_0.png" style="width: 100%; float: right; margin-left: 1em;">
+
+
+*(!pip install tensorflow==1.14.0)*
+*(!pip install keras==2.1.6)*
+
 
 #### Header 4
 
