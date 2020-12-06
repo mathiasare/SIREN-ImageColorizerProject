@@ -6,20 +6,34 @@ Text can be **bold**, _italic_, or ~~strikethrough~~.
 
 [Link to another page](./another-page.html).
 
-There should be whitespace between paragraphs.
+# INTRODUCTION
 
-There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.
+The grand aim of this project is to build or reuse an image colorization neural network while using SIREN activation function instead. 
+SIREN is a periodic activation function described in @inproceedings{sitzmann2019siren,
+    author = {Sitzmann, Vincent
+              and Martel, Julien N.P.
+              and Bergman, Alexander W.
+              and Lindell, David B.
+              and Wetzstein, Gordon},
+    title = {Implicit Neural Representations
+              with Periodic Activation Functions},
+    booktitle = {arXiv},
+    year={2020}
+}
+https://github.com/vsitzmann/siren
+The project is divided into three phases:
+1. Experimenting with SIREN in the given Collab environment.
+2. Trying out b/w image colorization, merging and resizing.
+3. **Building the SIREN based NN to colorize images**
 
-# Header 1
 
-This is a normal paragraph following a header. GitHub is a code hosting platform for version control and collaboration. It lets you and others work together on projects from anywhere.
-
-## Header 2
+# BACKGROUND
 
 > This is a blockquote following a header.
 >
 > When something is important enough, you do it even if the odds are not in your favor.
 
+# 
 ### Header 3
 
 ```js
