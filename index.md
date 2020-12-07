@@ -59,7 +59,7 @@ We notice that SIREN results in a smoother result than other activation function
 
 After messing around with the coloring model from [emil_wallner](https://medium.com/@emilwallner/colorize-b-w-photos-with-a-100-line-neural-network-53d9b4449f8d) we eventually achieved something:
 - 1000 epochs with only one picture to train and test
-
+- Train photo, test photo, result
 ![Train photo](pics/img_0.png)
 ![Test photo](pics/test_0.jpg)
 ![Result](pics/res_0.jpg)
