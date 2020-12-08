@@ -22,10 +22,6 @@ The original SIREN paper github link: [SIREN](https://github.com/vsitzmann/siren
 
 # BACKGROUND
 
-> This is a blockquote following a header.
->
-> When something is important enough, you do it even if the odds are not in your favor.
-
 SIREN models use sinus as activation functions. Models build with SIREN are stable through gradient operation: if a model is trained an output, then the gradient of the output is also close from the aimed output.
 
 This means that SIREN models trained to output an image will provide an output that also has a gradient -and laplacian- close to the aimed image.
@@ -60,6 +56,7 @@ We notice that SIREN results in a smoother result than other activation function
 After messing around with the coloring model from [emil_wallner](https://medium.com/@emilwallner/colorize-b-w-photos-with-a-100-line-neural-network-53d9b4449f8d) we eventually achieved something:
 - 1000 epochs with only one picture to train and test
 - Train photo, test photo, result
+
 ![Train photo](pics/img_0.png)
 ![Test photo](pics/test_0.jpg)
 ![Result](pics/res_0.jpg)
