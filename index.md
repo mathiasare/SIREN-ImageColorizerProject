@@ -90,4 +90,12 @@ The images we show are image A, B, and C.
 
 We see that the resulting image has the details of both images. Since the elements are in the same positions in each image, it results is transparent shapes.
 
+#### Second test: merging 2 RGB images
+
+This step required creating the gradients of the functions by hand: for computational efficiency, we only computed the horizontal gradient of each image. We obtained the merged image as follows:
+
+![image_A_rgb](imgs/image_A_rgb.png)
+![image_B_rgb](imgs/image_B_rgb.png)
+![image_C_rgb](imgs/image_C_rgb.png)
+
 
