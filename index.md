@@ -62,7 +62,7 @@ After messing around with the coloring model from [emil_wallner](https://medium.
 ![Result](pics/res_0.jpg)
 
 _in wish to make the model run in one's computer use tensorflow 1.14.0 and keras 2.1.6_
-*(!pip install tensorflow==1.14.0)* *(!pip install keras==2.1.6)*
+*(!pip install tensorflow==1.14.0)* *(!pip install keras==2.1.6)* *h5py=2.10.0*
 
 
 
