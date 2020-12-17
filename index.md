@@ -64,7 +64,28 @@ After messing around with the coloring model from [emil_wallner](https://medium.
 _in wish to make the model run in one's computer use tensorflow 1.14.0 and keras 2.1.6_
 *(!pip install tensorflow==1.14.0)* *(!pip install keras==2.1.6)* *h5py=2.10.0*
 
+### EMIL_WALLNER model
 
+Many different combinations of activation functions were tried out but eventually three were chosen to carry out final experiments:
+Let's call the models followingly:
+- FULL_RELU(FR): everything is left as in the original model- only the ulitmate layer activation function is *tanh*, others are *relu*
+- SIREN_RELU_SIREN(SRS): only the first and last layer are changed to have *siren* activation function
+- SIREN130(S130) aka FULL_SIREN: Not only is it only using all *siren*, the *omega_0* is also chosen to be 1/30
+All the mentioned models proved rather satisfing results on fitting one picture. The results of fitting are represented below:
+
+![FR](pics/gifs/relufit.gif)
+![SRS](pics/gifs/srsfit.gif)
+![S130](pics/gifs/srsfit.gif)
+
+Final results after 1000 epochs
+![FR_only](pics/gifs/relu_fit_only.png)
+![SRS_fit](pics/gifs/srs_fit_only.png)
+![S130only](pics/gifs/siren130_fit_only.png)
+
+Loss over 1000 epochs:
+![relu_loss](pics/gifs/relu_loss.png)
+![SRS_fit](pics/gifs/srs_loss.png)
+![S130only](pics/gifs/siren130_fit_only.png)
 
 ### First results with SIREN models: basic image representation
 
