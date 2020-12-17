@@ -86,8 +86,8 @@ Final results after 1000 epochs
 Loss over 1000 epochs:
 
 ![relu_loss](pics/gifs/relu_loss.PNG)
-![SRS_fit](pics/gifs/srs_loss.PNG)
-![S130only](pics/gifs/siren130_fit_only.png)
+![srs_loss](pics/gifs/srs_loss.PNG)
+![S130_loss](pics/gifs/siren130_fit_only.png)
 
 ### First results with SIREN models: basic image representation
 
