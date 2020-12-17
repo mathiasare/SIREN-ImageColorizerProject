@@ -75,16 +75,18 @@ All the mentioned models proved rather satisfing results on fitting one picture.
 
 ![FR](pics/gifs/relufit.gif)
 ![SRS](pics/gifs/srsfit.gif)
-![S130](pics/gifs/srsfit.gif)
+![S130](pics/gifs/siren130fit.gif)
 
 Final results after 1000 epochs
+
 ![FR_only](pics/gifs/relu_fit_only.png)
 ![SRS_fit](pics/gifs/srs_fit_only.png)
 ![S130only](pics/gifs/siren130_fit_only.png)
 
 Loss over 1000 epochs:
-![relu_loss](pics/gifs/relu_loss.png)
-![SRS_fit](pics/gifs/srs_loss.png)
+
+![relu_loss](pics/gifs/relu_loss.PNG)
+![SRS_fit](pics/gifs/srs_loss.PNG)
 ![S130only](pics/gifs/siren130_fit_only.png)
 
 ### First results with SIREN models: basic image representation
