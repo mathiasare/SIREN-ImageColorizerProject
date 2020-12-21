@@ -89,6 +89,33 @@ Loss over 1000 epochs:
 ![srs_loss](pics/gifs/srs_loss.PNG)
 ![S130_loss](pics/gifs/siren130_fit_only.png)
 
+
+### Fully connected linear layers
+
+The model trained consists of 3 layers fully connected with sinus activation function. In order to maintain a size of the model reasonable (less than 5Gb), the iamges are reduced to 48*48 pixels. The input consists of a black and white image, and the output is the RGB image. The model is trained on batches of size 70, on a dataset of 720 images representing beaches. In the following results, each image is provided from left to right as:
+- output of the model
+- initial RGB image
+- input of the model: a black and white image
+
+Loss during training:
+
+![loss](imgs/colorization/loss.png)
+
+Training results:
+
+![training_images](imgs/colorization/training_images.png)
+
+Testing results:
+
+![testing_images](imgs/colorization/testing_images.png)
+
+We notice that the model overfits on the training dataset: it manages to obtain far better results on the training data than on the testing data. However, this results in the best outcome: the testing data manages to capture most of the shapes, and a partial colorization.
+
+A similar model was also trained on a larger dataset: 7000 images of landscapes (beaches, mountains, forests, icecaps): the testing results were quite bad. This may come from the increased diversity of the images. Therefore, the model did not know which colors to apply depending on the type of images.
+
+Another problem is the size of the model: creating fully connected layers results in a model size proportionate to the square of the resolution of the image. Therefore, this model can only be applied on small images: in order to obtain a colorization of a large image, it would have to be split in small pieces, and then reassembled. 
+
+
 ### First results with SIREN models: basic image representation
 
 #### Steps of transformation
@@ -120,5 +147,3 @@ This step required creating the gradients of the functions by hand: for computat
 ![image_A_rgb](imgs/image_A_rgb.png)
 ![image_B_rgb](imgs/image_B_rgb.png)
 ![image_C_rgb](imgs/image_C_rgb.png)
-
-
