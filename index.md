@@ -57,9 +57,10 @@ After messing around with the coloring model from [emil_wallner](https://medium.
 - 1000 epochs with only one picture to train and test
 - Train photo, test photo, result
 
-![Train photo](pics/img_0.png)
-![Test photo](pics/test_0.jpg)
-![Result](pics/res_0.jpg)
+
+| Train image             |  Test image     | Result image |
+:-------------------------:|:-------------------------:|:------------------:
+![](pics/res_0.jpg) |![](pics/test_0.jpg) |![](pics/img_0.png)
 
 _in wish to make the model run in one's computer use tensorflow 1.14.0 and keras 2.1.6_
 *(!pip install tensorflow==1.14.0)* *(!pip install keras==2.1.6)* *h5py=2.10.0*
