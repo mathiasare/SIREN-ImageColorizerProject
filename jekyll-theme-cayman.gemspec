@@ -21,8 +21,3 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'w3c_validators', '~> 1.3'
 end
 
-<script src="//yihui.org/js/math-code.js"></script>
-<!-- Just one possible MathJax CDN below. You may use others. -->
-<script async
-  src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
