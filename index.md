@@ -114,7 +114,7 @@ _versions necessary to make the model run in one's computer use tensorflow 1.14.
 Firstly, quite difficult implementations were tried but at some point it occurred that the implementation can be done quite easily:
 
 Here is the function to initialize the first layer of the model as described in the article altough the $\omega_0=1/30$ which is different than in the article:
-(In the article $\omega_0=30$ but this provided poor results. We did not figured out why but $\omega_0=1/30$ in contrary worked fine!)
+(In the article $$\omega_0=30$$ but this provided poor results. We did not figured out why but $\omega_0=1/30$ in contrary worked fine!)
 
 ```
 from keras.utils.generic_utils import get_custom_objects
