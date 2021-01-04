@@ -114,6 +114,8 @@ _versions necessary to make the model run in one's computer use tensorflow 1.14.
 Firstly, quite difficult implementations were tried but at some point it occurred that the implementation can be done quite easily:
 
 Here is the function to initialize the first layer of the model as described in the article altough the $\omega_0=1/30$ which is different than in the article:
+(In the article $\omega_0=30$ but this provided poor results. We did not figured out why but $\omega_0=1/30$ in contrary worked fine!)
+
 ```
 from keras.utils.generic_utils import get_custom_objects
 
@@ -133,6 +135,8 @@ where `kernel_initializer` is for the weight initialization.
 For other layers, the _siren_ could be given in such a way: 
 
 `encoder_output = Conv2D(128, (3,3), activation=tf.math.sin, kernel_initializer="he_uniform", padding='same')(encoder_output)`
+
+where `he_uniform` is a uniform distribution from $U(-\sqrt{\frac{6}{fan_in}},\sqrt{\frac{6}{fan_in}})$ (fan_in is the number of input units in the weight tensor) which is same as described in the paper.
 
 ### EMIL_WALLNER model testing
 
@@ -157,17 +161,56 @@ We can see that the loss is less than ~0.002 respectively after 1000, 300 and 90
 
 As, also stated in the [emil_wallner](https://medium.com/@emilwallner/colorize-b-w-photos-with-a-100-line-neural-network-53d9b4449f8d), first "proper" results started to emerge after training with 40 images. We chose 40 images, mainly portraits and some landscapes, and trained the model on them. For this, as it takes a lot of machine power already, we used Google Colab and adjusted the model to work with GPU.
 
-We used 2 bach training with 20 images each and here are the results after 1000 epochs of training:
+We used 2 bach training with 20 images each and here is the loss after 1000 epochs of training:
 
 | Full_Relu |  Siren_Relu_Siren | Siren130|
 |:-------------------------:|:-------------------------:|:------------------:|
 |                       |   *Loss from 50 to 1000 epochs*     |              |
 ![](pics/tests/relu/loss_relu.PNG) |![](pics/tests/srs/loss_srs.PNG) |![](pics/tests/siren/loss_siren.PNG)
-|                          |*Predicting training images after 1000 epochs* |               |
-![](pics/tests/relu/relu_trn(5).png) |![](pics/tests/srs/srs_trn(1).png) |![](pics/tests/siren/siren_trn(5).png)
-![](pics/tests/relu/relu_trn(2).png) |![](pics/tests/srs/srs_trn(3).PNG) |![](pics/tests/siren/siren_trn(2).png)
-![](pics/tests/relu/relu_trn(3).png) |![](pics/tests/srs/srs_trn(4).png) |![](pics/tests/siren/siren_trn(3).png)
 
+We can see more or less the same results as before. They achieve loss ~0.002 respectively after 800, 300 and 1000 epochs but the validation loss at these points is approximately 0.0082, 0.009 and 0.009. So, looking at validation loss FR is still the best model but we cannot say that for sure as SRS is converging just so much faster.
+
+Now, lets look at some visual testing and results, so that everyone could judge themselves which models predicts the best after this still rather small scale trainig action.
+
+Predicted training images compared to ground truth
+
+| Full_Relu |  Siren_Relu_Siren | Siren130 | Ground Truth |
+|:-------------------------:|:-------------------------:|:------------------:|:----------------------------:|
+|                          |*Predicting training images after*  |    *1000 epochs*         |           |
+![](pics/tests/relu/relu_trn%20(5).png) |![](pics/tests/srs/srs_trn%20(1).png) |![](pics/tests/siren/siren_trn%20(5).png) |![](pics/tests/train/gt%20(2).jpg)
+![](pics/tests/relu/relu_trn%20(2).png) |![](pics/tests/srs/srs_trn%20(3).png) |![](pics/tests/siren/siren_trn%20(2).png) |![](pics/tests/train/gt%20(3).jpg)
+![](pics/tests/relu/relu_trn%20(3).png) |![](pics/tests/srs/srs_trn%20(4).png) |![](pics/tests/siren/siren_trn%20(3).png) |![](pics/tests/train/gt%20(1).jpg)
+
+We can see that as they have all reached a different level of fitness. The SRS model has clearly overfitted due to its fast convergence. S130 has overfitted least.
+
+Predicted validataion images compared to ground truth:
+
+| Full_Relu |  Siren_Relu_Siren | Siren130 | Ground Truth |
+|:-------------------------:|:-------------------------:|:------------------:|:----------------------------:|
+|                          |*Predicting validation images*  |    *after 1000 epochs*         |           |
+![](pics/tests/relu/relu_vld%20(2).png) |![](pics/tests/srs/srs_vld%20(1).png) |![](pics/tests/siren/siren_vld%20(1).png) |![](pics/tests/valid/org%20(1).jpg)
+![](pics/tests/relu/relu_vld%20(3).png) |![](pics/tests/srs/srs_vld%20(2).png) |![](pics/tests/siren/siren_vld%20(2).png) |![](pics/tests/valid/org%20(2).jpg)
+![](pics/tests/relu/relu_vld%20(4).png) |![](pics/tests/srs/srs_vld%20(3).png) |![](pics/tests/siren/siren_vld%20(3).png) |![](pics/tests/valid/org%20(3).jpg)
+![](pics/tests/relu/relu_vld%20(5).png) |![](pics/tests/srs/srs_vld%20(4).png) |![](pics/tests/siren/siren_vld%20(4).png) |![](pics/tests/valid/org%20(4).jpg)
+![](pics/tests/relu/relu_vld%20(1).png) |![](pics/tests/srs/srs_vld%20(5).png) |![](pics/tests/siren/siren_vld%20(5).png) |![](pics/tests/valid/org%20(5).jpg)
+
+Predictions of the models for test data, where we do not know the ground truth:
+
+| Full_Relu |  Siren_Relu_Siren | Siren130|
+|:-------------------------:|:-------------------------:|:------------------:|
+|                       |   *Predicting test images after 1000 epochs*     |              |
+![](pics/tests/relu/exp11_relu.gif) |![](pics/tests/srs/exp11_srs.gif) |![](pics/tests/siren/exp11_siren.gif)
+![](pics/tests/relu/exp12_relu.gif) |![](pics/tests/srs/exp12_srs.gif) |![](pics/tests/siren/exp12_siren.gif)
+![](pics/tests/relu/exp13_relu.gif) |![](pics/tests/srs/exp13_srs.gif) |![](pics/tests/siren/exp13_siren.gif)
+![](pics/tests/relu/exmp3_relu.gif) |![](pics/tests/srs/exmp3_srs.gif) |![](pics/tests/siren/exmp3_siren.gif)
+![](pics/tests/relu/exmp2_relu.gif) |![](pics/tests/srs/exmp2_srs.gif) |![](pics/tests/siren/exmp2_siren.gif)
+![](pics/tests/relu/ima_other2.PNG) |![](pics/tests/srs/ima_other5.PNG) |![](pics/tests/siren/ima_nut2.PNG)
+
+We can see again that, as these results are saved after 1000 epochs and due that time SRS has overfitted a lot whose signes can be noticed easily from the results. 
+
+#### Conclusion
+
+It is hard to say which of those models is really the best but on thing is sure, _siren_ activation function smartly combined with _relu_ converges approximately 3 times faster than other given models.
 
 ### Fully connected linear layers
 
