@@ -3,3 +3,9 @@ description: Introduction to Computational Neuroscience course project
 show_downloads: true
 google_analytics:
 theme: jekyll-theme-cayman
+
+<script src="//yihui.org/js/math-code.js"></script>
+<!-- Just one possible MathJax CDN below. You may use others. -->
+<script async
+  src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
