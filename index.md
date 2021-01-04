@@ -137,7 +137,7 @@ For other layers, the _siren_ could be given in such a way:
 
 `encoder_output = Conv2D(128, (3,3), activation=tf.math.sin, kernel_initializer="he_uniform", padding='same')(encoder_output)`
 
-where `he_uniform` is a uniform distribution from $U(-\sqrt{\frac{6}{fan_{in}}},\sqrt{\frac{6}{fan_{in}}})$ (fan_in is the number of input units in the weight tensor) which is same as described in the paper.
+where `he_uniform` is a uniform distribution $U(-\sqrt{\frac{6}{fan_{in}}},\sqrt{\frac{6}{fan_{in}}})$ (fan_in is the number of input units in the weight tensor) which is same as described in the paper.
 
 ### EMIL_WALLNER model testing
 
@@ -146,6 +146,7 @@ Let's call the models followingly:
 - FULL_RELU(FR): everything is left as in the original model- only the ultimate layer's activation function is *tanh*, others are *relu*
 - SIREN_RELU_SIREN(SRS): only the first and last layer are changed to have *siren* activation function
 - SIREN130(S130) aka FULL_SIREN: all the layers are using *siren*
+
 All the mentioned models proved rather satisfing results on fitting one picture. The results of fitting are represented below:
 
 | Full_Relu(FR) |  Siren_Relu_Siren(SRS) | Siren130(S130)|
@@ -199,13 +200,13 @@ Predictions of the models for test data, where we do not know the ground truth:
 
 | Full_Relu |  Siren_Relu_Siren | Siren130|
 |:-------------------------:|:-------------------------:|:------------------:|
-|                       |   *Predicting test images after 1000 epochs*     |              |
+|                       | *Predicting test images after* |      *1000 epochs*         |
 ![](pics/tests/relu/exp11_relu.gif) |![](pics/tests/srs/exp11_srs.gif) |![](pics/tests/siren/exp11_siren.gif)
 ![](pics/tests/relu/exp12_relu.gif) |![](pics/tests/srs/exp12_srs.gif) |![](pics/tests/siren/exp12_siren.gif)
 ![](pics/tests/relu/exp13_relu.gif) |![](pics/tests/srs/exp13_srs.gif) |![](pics/tests/siren/exp13_siren.gif)
 ![](pics/tests/relu/exmp3_relu.gif) |![](pics/tests/srs/exmp3_srs.gif) |![](pics/tests/siren/exmp3_siren.gif)
 ![](pics/tests/relu/exmp2_relu.gif) |![](pics/tests/srs/exmp2_srs.gif) |![](pics/tests/siren/exmp2_siren.gif)
-![](pics/tests/relu/ima_other2.PNG) |![](pics/tests/srs/ima_other5.PNG) |![](pics/tests/siren/ima_nut2.PNG)
+![](pics/tests/relu/ima_other2.png) |![](pics/tests/srs/ima_other5.png) |![](pics/tests/siren/ima_nut2.png)
 
 We can see again that, as these results are saved after 1000 epochs and due that time SRS has overfitted a lot whose signes can be noticed easily from the results. 
 
@@ -245,7 +246,7 @@ Another problem is the size of the model: creating fully connected layers result
 
 We consider image A and image B, we want to obtain image C as a mix of the 2 initial images. If we merge the images pixel by pixel, we will obtain new colors which we do not want. instead, we want only the main elements of each image to be present. Therefore, we are going to merge the gradients of the 2 images, and then build the image associated to this gradient. This operation does not require the use of SIREN networks. However, it is possible to use them as a storage format of each image.
 
-![Model](SIREN_merging.png)
+![Model](imgs/SIREN_merging.png)
 
 ### First test: merging 2 black and white images
 
