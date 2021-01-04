@@ -137,7 +137,7 @@ For other layers, the _siren_ could be given in such a way:
 
 `encoder_output = Conv2D(128, (3,3), activation=tf.math.sin, kernel_initializer="he_uniform", padding='same')(encoder_output)`
 
-where `he_uniform` is a uniform distribution from $U(-\sqrt{\frac{6}{{fan_in}}},\sqrt{\frac{6}{fan_{in}}})$ (fan_in is the number of input units in the weight tensor) which is same as described in the paper.
+where `he_uniform` is a uniform distribution from $U(-\sqrt{\frac{6}{fan_{in}}},\sqrt{\frac{6}{fan_{in}}})$ (fan_in is the number of input units in the weight tensor) which is same as described in the paper.
 
 ### EMIL_WALLNER model testing
 
