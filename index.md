@@ -49,7 +49,7 @@ We notice that SIREN results in a smoother result than other activation function
 
 # RESULTS
 
-## Colorization
+# Colorization
 
 Here we represent what we achieved with colorization.
 
@@ -111,10 +111,11 @@ _versions necessary to make the model run in one's computer use tensorflow 1.14.
 
 ### Implementing Siren
 
+
 Firstly, quite difficult implementations were tried but at some point it occurred that the implementation can be done quite easily:
 
 Here is the function to initialize the first layer of the model as described in the article altough the $\omega_0=1/30$ which is different than in the article:
-(In the article $$\omega_0=30$$ but this provided poor results. We did not figured out why but $\omega_0=1/30$ in contrary worked fine!)
+(In the article $\omega_0=30$ but this provided poor results. We did not figured out why but $\omega_0=1/30$ in contrary worked fine!)
 
 ```
 from keras.utils.generic_utils import get_custom_objects
@@ -136,7 +137,7 @@ For other layers, the _siren_ could be given in such a way:
 
 `encoder_output = Conv2D(128, (3,3), activation=tf.math.sin, kernel_initializer="he_uniform", padding='same')(encoder_output)`
 
-where `he_uniform` is a uniform distribution from $U(-\sqrt{\frac{6}{fan_in}},\sqrt{\frac{6}{fan_in}})$ (fan_in is the number of input units in the weight tensor) which is same as described in the paper.
+where `he_uniform` is a uniform distribution from $U(-\sqrt{\frac{6}{{fan_in}}},\sqrt{\frac{6}{fan_{in}}})$ (fan_in is the number of input units in the weight tensor) which is same as described in the paper.
 
 ### EMIL_WALLNER model testing
 
@@ -212,9 +213,9 @@ We can see again that, as these results are saved after 1000 epochs and due that
 
 It is hard to say which of those models is really the best but on thing is sure, _siren_ activation function smartly combined with _relu_ converges approximately 3 times faster than other given models.
 
-### Fully connected linear layers
+##  Fully connected linear layers SIREN colorization model
 
-The model trained consists of 3 layers fully connected with sinus activation function. In order to maintain a size of the model reasonable (less than 5Gb), the iamges are reduced to 48*48 pixels. The input consists of a black and white image, and the output is the RGB image. The model is trained on batches of size 70, on a dataset of 720 images representing beaches. In the following results, each image is provided from left to right as:
+The model trained consists of 3 layers fully connected with sinus activation function. In order to maintain a size of the model reasonable (less than 5Gb), the images are reduced to 48*48 pixels. The input consists of a black and white image, and the output is the RGB image. The model is trained on batches of size 70, on a dataset of 720 images representing beaches. In the following results, each image is provided from left to right as:
 - output of the model
 - initial RGB image
 - input of the model: a black and white image
@@ -238,15 +239,15 @@ A similar model was also trained on a larger dataset: 7000 images of landscapes 
 Another problem is the size of the model: creating fully connected layers results in a model size proportionate to the square of the resolution of the image. Therefore, this model can only be applied on small images: in order to obtain a colorization of a large image, it would have to be split in small pieces, and then reassembled. 
 
 
-### First results with SIREN models: basic image representation
+# Merging
 
-#### Steps of transformation
+## Steps of transformation
 
 We consider image A and image B, we want to obtain image C as a mix of the 2 initial images. If we merge the images pixel by pixel, we will obtain new colors which we do not want. instead, we want only the main elements of each image to be present. Therefore, we are going to merge the gradients of the 2 images, and then build the image associated to this gradient. This operation does not require the use of SIREN networks. However, it is possible to use them as a storage format of each image.
 
 ![Model](SIREN_merging.png)
 
-#### First test: merging 2 black and white images
+### First test: merging 2 black and white images
 
 We take 2 images 128*128 in black and white and merge them together. The results for each image are:
 - image outputted by SIREN model
@@ -262,10 +263,14 @@ The images we show are image A, B, and C.
 
 We see that the resulting image has the details of both images. Since the elements are in the same positions in each image, it results is transparent shapes.
 
-#### Second test: merging 2 RGB images
+### Second test: merging 2 RGB images
 
 This step required creating the gradients of the functions by hand: for computational efficiency, we only computed the horizontal gradient of each image. We obtained the merged image as follows:
 
 ![image_A_rgb](imgs/image_A_rgb.png)
 ![image_B_rgb](imgs/image_B_rgb.png)
 ![image_C_rgb](imgs/image_C_rgb.png)
+
+# Resizing images using SIREN
+
+...
