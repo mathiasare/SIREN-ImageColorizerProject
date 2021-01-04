@@ -113,37 +113,60 @@ _versions necessary to make the model run in one's computer use tensorflow 1.14.
 
 Firstly, quite difficult implementations were tried but at some point it occurred that the implementation can be done quite easily:
 
-Here is the function to initialize the first layer of the model as described in the article:
+Here is the function to initialize the first layer of the model as described in the article altough the $\omega_0=1/30$ which is different than in the article:
 ```
+from keras.utils.generic_utils import get_custom_objects
+
 def siren_in(x):
     x *= 1/30
     return tf.math.sin(x)
+
+get_custom_objects().update({'siren_in': Activation(siren_in)})
 ```
 
-### EMIL_WALLNER model
+and here is how it looks like in the layer:
+
+`encoder_output = Conv2D(64, (3,3), activation="siren_in", kernel_initializer=tf.keras.initializers.RandomUniform(minval=-1, maxval=1), padding='same', strides=2)(encoder_input)`
+
+where `kernel_initializer` is for the weight initialization.
+
+For other layers, the _siren_ could be given in such a way: 
+
+`encoder_output = Conv2D(128, (3,3), activation=tf.math.sin, kernel_initializer="he_uniform", padding='same')(encoder_output)`
+
+### EMIL_WALLNER model testing
 
 Many different combinations of activation functions were tried out but eventually three were chosen to carry out final experiments:
 Let's call the models followingly:
 - FULL_RELU(FR): everything is left as in the original model- only the ultimate layer's activation function is *tanh*, others are *relu*
 - SIREN_RELU_SIREN(SRS): only the first and last layer are changed to have *siren* activation function
-- SIREN130(S130) aka FULL_SIREN: Not only is it only using all *siren*, the *omega_0* is also chosen to be 1/30
+- SIREN130(S130) aka FULL_SIREN: all the layers are using *siren*
 All the mentioned models proved rather satisfing results on fitting one picture. The results of fitting are represented below:
 
-![FR](pics/gifs/relufit.gif)
-![SRS](pics/gifs/srsfit.gif)
-![S130](pics/gifs/siren130fit.gif)
+| Full_Relu(FR) |  Siren_Relu_Siren(SRS) | Siren130(S130)|
+|:-------------------------:|:-------------------------:|:------------------:|
+![](pics/gifs/relufit.gif) |![](pics/gifs/srsfit.gif)  |![](pics/gifs/siren130fit.gif)
+|                          |*Final result after 1000 epochs* |               |
+![](pics/gifs/relu_fit_only.png) |![](pics/gifs/srs_fit_only.png) |![](pics/gifs/siren130_fit_only.png)
+|                       |   *Loss from 50 to 1000 epochs*     |              |
+![](pics/gifs/reluloss.PNG) |![](pics/gifs/srs_loss.PNG) |![](pics/gifs/siren_loss.PNG)
 
-Final results after 1000 epochs
+We can see that the loss is less than ~0.002 respectively after 1000, 300 and 900 epochs. This is the first implication that _siren_ combined with _relu_ is converging remarkably faster then the others. 
 
-![FR_only](pics/gifs/relu_fit_only.png)
-![SRS_fit](pics/gifs/srs_fit_only.png)
-![S130only](pics/gifs/siren130_fit_only.png)
+### Models trained on 40 images
 
-Loss over 1000 epochs:
+As, also stated in the [emil_wallner](https://medium.com/@emilwallner/colorize-b-w-photos-with-a-100-line-neural-network-53d9b4449f8d), first "proper" results started to emerge after training with 40 images. We chose 40 images, mainly portraits and some landscapes, and trained the model on them. For this, as it takes a lot of machine power already, we used Google Colab and adjusted the model to work with GPU.
 
-![relu_loss](pics/gifs/relu_loss.PNG)
-![srs_loss](pics/gifs/srs_loss.PNG)
-![S130_loss](pics/gifs/siren130_fit_only.png)
+We used 2 bach training with 20 images each and here are the results after 1000 epochs of training:
+
+| Full_Relu |  Siren_Relu_Siren | Siren130|
+|:-------------------------:|:-------------------------:|:------------------:|
+|                       |   *Loss from 50 to 1000 epochs*     |              |
+![](pics/tests/relu/loss_relu.PNG) |![](pics/tests/srs/loss_srs.PNG) |![](pics/tests/siren/loss_siren.PNG)
+|                          |*Predicting training images after 1000 epochs* |               |
+![](pics/tests/relu/relu_trn(5).png) |![](pics/tests/srs/srs_trn(1).png) |![](pics/tests/siren/siren_trn(5).png)
+![](pics/tests/relu/relu_trn(2).png) |![](pics/tests/srs/srs_trn(3).PNG) |![](pics/tests/siren/siren_trn(2).png)
+![](pics/tests/relu/relu_trn(3).png) |![](pics/tests/srs/srs_trn(4).png) |![](pics/tests/siren/siren_trn(3).png)
 
 
 ### Fully connected linear layers
