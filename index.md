@@ -49,11 +49,55 @@ We notice that SIREN results in a smoother result than other activation function
 
 # RESULTS
 
+## Colorization
+
+Here we represent what we achieved with colorization.
+
 ## Reusing model
 
-### First results without SIREN
+What kind of model should we use? It was a rather complicated question at first and we concentrated too much on quite complicated models such as [AIC](https://github.com/lukemelas/Automatic-Image-Colorization) and [Pix2Pix](https://github.com/affinelayer/pix2pix-tensorflow). Then we found a simple introduction to image colorization given by Emil Wallner from [emil_wallner](https://medium.com/@emilwallner/colorize-b-w-photos-with-a-100-line-neural-network-53d9b4449f8d). It also inculded advanced model that were capable of actually colorizing b/w images. It was based on _relu_ and _tanh_ activation functions. So, it was a perfect model to try out _siren_ function.
 
-After messing around with the coloring model from [emil_wallner](https://medium.com/@emilwallner/colorize-b-w-photos-with-a-100-line-neural-network-53d9b4449f8d) we eventually achieved something:
+Here is the overview of the architecture of the model:
+
+```
+embed_input = Input(shape=(1000,))
+
+#Encoder
+encoder_input = Input(shape=(256, 256, 1,))
+encoder_output = Conv2D(64, (3,3), activation='relu', padding='same', strides=2)(encoder_input)
+encoder_output = Conv2D(128, (3,3), activation='relu', padding='same')(encoder_output)
+encoder_output = Conv2D(128, (3,3), activation='relu', padding='same', strides=2)(encoder_output)
+encoder_output = Conv2D(256, (3,3), activation='relu', padding='same')(encoder_output)
+encoder_output = Conv2D(256, (3,3), activation='relu', padding='same', strides=2)(encoder_output)
+encoder_output = Conv2D(512, (3,3), activation='relu', padding='same')(encoder_output)
+encoder_output = Conv2D(512, (3,3), activation='relu', padding='same')(encoder_output)
+encoder_output = Conv2D(256, (3,3), activation='relu', padding='same')(encoder_output)
+
+#Fusion
+fusion_output = RepeatVector(32 * 32)(embed_input) 
+fusion_output = Reshape(([32, 32, 1000]))(fusion_output)
+fusion_output = concatenate([encoder_output, fusion_output], axis=3) 
+fusion_output = Conv2D(256, (1, 1), activation='relu', padding='same')(fusion_output) 
+
+#Decoder
+decoder_output = Conv2D(128, (3,3), activation='relu', padding='same')(fusion_output)
+decoder_output = UpSampling2D((2, 2))(decoder_output)
+decoder_output = Conv2D(64, (3,3), activation='relu', padding='same')(decoder_output)
+decoder_output = UpSampling2D((2, 2))(decoder_output)
+decoder_output = Conv2D(32, (3,3), activation='relu', padding='same')(decoder_output)
+decoder_output = Conv2D(16, (3,3), activation='relu', padding='same')(decoder_output)
+decoder_output = Conv2D(2, (3, 3), activation='tanh', padding='same')(decoder_output)
+decoder_output = UpSampling2D((2, 2))(decoder_output)
+
+model = Model(inputs=[encoder_input, embed_input], outputs=decoder_output)
+```
+
+the `embed_input` includes information from the image classifier — the inception resnet v2, that is trained on over a million images. The more exact description of the model is given at [emil_wallner](https://medium.com/@emilwallner/colorize-b-w-photos-with-a-100-line-neural-network-53d9b4449f8d). 
+
+
+### Warm-up
+
+After messing around with the [emil_wallner](https://medium.com/@emilwallner/colorize-b-w-photos-with-a-100-line-neural-network-53d9b4449f8d) original model we eventually achieved something:
 - 1000 epochs with only one picture to train and test
 - Train photo, test photo, result
 
@@ -62,14 +106,25 @@ After messing around with the coloring model from [emil_wallner](https://medium.
 :-------------------------:|:-------------------------:|:------------------:
 ![](pics/res_0.jpg) |![](pics/test_0.jpg) |![](pics/img_0.png)
 
-_in wish to make the model run in one's computer use tensorflow 1.14.0 and keras 2.1.6_
-*(!pip install tensorflow==1.14.0)* *(!pip install keras==2.1.6)* *h5py=2.10.0*
+_versions necessary to make the model run in one's computer use tensorflow 1.14.0 and keras 2.1.6_
+*(!pip install tensorflow==1.14.0)* *(!pip install keras==2.1.6)* *(h5py=2.10.0)*
+
+### Implementing Siren
+
+Firstly, quite difficult implementations were tried but at some point it occurred that the implementation can be done quite easily:
+
+Here is the function to initialize the first layer of the model as described in the article:
+```
+def siren_in(x):
+    x *= 1/30
+    return tf.math.sin(x)
+```
 
 ### EMIL_WALLNER model
 
 Many different combinations of activation functions were tried out but eventually three were chosen to carry out final experiments:
 Let's call the models followingly:
-- FULL_RELU(FR): everything is left as in the original model- only the ulitmate layer activation function is *tanh*, others are *relu*
+- FULL_RELU(FR): everything is left as in the original model- only the ultimate layer's activation function is *tanh*, others are *relu*
 - SIREN_RELU_SIREN(SRS): only the first and last layer are changed to have *siren* activation function
 - SIREN130(S130) aka FULL_SIREN: Not only is it only using all *siren*, the *omega_0* is also chosen to be 1/30
 All the mentioned models proved rather satisfing results on fitting one picture. The results of fitting are represented below:
