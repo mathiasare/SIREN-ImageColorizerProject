@@ -32,12 +32,13 @@ This stability of SIREN models is useful in performing operations on the output 
 
 However, the training of a model using sine activation functions depends highly on the initialization of the activation functions:
 ```
-y=sin(ax+b), a, b $\in \mathbb{R}$
+y=sin(ax+b), a, b \in \mathbb{R}
 ```
 If the initialization is inaccurate, the model may fail at training. The advised strategy to initialize weights is:
 ```
 a \tilde \mathbb{U}(-\dfrac{\sqrt{6}}{n}, \dfrac{\sqrt{6}}{n})
 ```
+n is the number of nodes in the layer. This choice allows the result ax+b to be in $[-\dfrac{\pi}{2}, \dfrac{\pi}{2}]$, and have  a normal distribution. Therefore, the initialization avoids a situation in which a learning step jumps over entire periods of the sine function.
 
 
 The fundamental use of SIREN models is to store images: a model is trained to output the value of the image on one pixel from the coordinates of the pixel as input. This means that the image is stored within the model, and can be resized at will. One interesting application is to merge images together: a model is trained to output an image which gradient will be the mean of 2 images. In the paper, this experiment was successful on gray images.
@@ -224,10 +225,19 @@ It is hard to say which of those models is really the best but on thing is sure,
 
 ##  Fully connected linear layers SIREN colorization model
 
+In this part, we use the model present in the paper:
+
+```
+img_siren = Siren(in_features=48*48, out_features=3*48*48, hidden_features=3*48*48, hidden_layers=3, outermost_linear=True)
+```
+
 The model trained consists of 3 layers fully connected with sinus activation function. In order to maintain a size of the model reasonable (less than 5Gb), the images are reduced to 48*48 pixels. The input consists of a black and white image, and the output is the RGB image. The model is trained on batches of size 70, on a dataset of 720 images representing beaches. In the following results, each image is provided from left to right as:
 - output of the model
 - initial RGB image
 - input of the model: a black and white image
+
+Each layer is fully connected: this model does not use convolution layers to identify categories of objects and shape in the image, but considers the entire image at once. This means that the model is larger in size, but also that the model has a direct perception of the entire image, hence knowing what the image represents.
+
 
 Loss during training:
 
@@ -246,6 +256,9 @@ We notice that the model overfits on the training dataset: it manages to obtain 
 A similar model was also trained on a larger dataset: 7000 images of landscapes (beaches, mountains, forests, icecaps): the testing results were quite bad. This may come from the increased diversity of the images. Therefore, the model did not know which colors to apply depending on the type of images.
 
 Another problem is the size of the model: creating fully connected layers results in a model size proportionate to the square of the resolution of the image. Therefore, this model can only be applied on small images: in order to obtain a colorization of a large image, it would have to be split in small pieces, and then reassembled.
+
+
+As a conclusion, SIREN models are capable of associating correct colors on images. However, the training can only be successful on classes of images: thee colorization must be able find similar images in the training dataset in order to be successful on other images. In addition, the colorization should be combined on small parts of images in order to obtain a quality colorization. 
 
 
 # Merging
