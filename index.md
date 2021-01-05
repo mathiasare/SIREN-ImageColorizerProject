@@ -30,6 +30,14 @@ This means that SIREN models trained to output an image will provide an output t
 
 This stability of SIREN models is useful in performing operations on the output of SIREN models: the Fourier transform is compatible with SIREN models (it can be applied to the output of SIREN models), differential equations can be solved with SIREN because the derivative of functions are computed correctly through SIREN, ...
 
+However, the training of a model using sine activation functions depends highly on the initialization of the activation functions:
+```
+y=sin(ax+b), a, b \in \mathbb{R}
+```
+If the initialization is inaccurate, the model may fail at training. The advised strategy to initialize weights is:
+```
+a \tilde \mathbb{U}(-\dfrac{\sqrt{6}}{n}, \dfrac{\sqrt{6}}{n})
+```
 
 
 The fundamental use of SIREN models is to store images: a model is trained to output the value of the image on one pixel from the coordinates of the pixel as input. This means that the image is stored within the model, and can be resized at will. One interesting application is to merge images together: a model is trained to output an image which gradient will be the mean of 2 images. In the paper, this experiment was successful on gray images.
@@ -74,10 +82,10 @@ encoder_output = Conv2D(512, (3,3), activation='relu', padding='same')(encoder_o
 encoder_output = Conv2D(256, (3,3), activation='relu', padding='same')(encoder_output)
 
 #Fusion
-fusion_output = RepeatVector(32 * 32)(embed_input) 
+fusion_output = RepeatVector(32 * 32)(embed_input)
 fusion_output = Reshape(([32, 32, 1000]))(fusion_output)
-fusion_output = concatenate([encoder_output, fusion_output], axis=3) 
-fusion_output = Conv2D(256, (1, 1), activation='relu', padding='same')(fusion_output) 
+fusion_output = concatenate([encoder_output, fusion_output], axis=3)
+fusion_output = Conv2D(256, (1, 1), activation='relu', padding='same')(fusion_output)
 
 #Decoder
 decoder_output = Conv2D(128, (3,3), activation='relu', padding='same')(fusion_output)
@@ -92,7 +100,7 @@ decoder_output = UpSampling2D((2, 2))(decoder_output)
 model = Model(inputs=[encoder_input, embed_input], outputs=decoder_output)
 ```
 
-the `embed_input` includes information from the image classifier — the inception resnet v2, that is trained on over a million images. The more exact description of the model is given at [emil_wallner](https://medium.com/@emilwallner/colorize-b-w-photos-with-a-100-line-neural-network-53d9b4449f8d). 
+the `embed_input` includes information from the image classifier — the inception resnet v2, that is trained on over a million images. The more exact description of the model is given at [emil_wallner](https://medium.com/@emilwallner/colorize-b-w-photos-with-a-100-line-neural-network-53d9b4449f8d).
 
 
 ### Warm-up
@@ -133,7 +141,7 @@ and here is how it looks like in the layer:
 
 where `kernel_initializer` is for the weight initialization.
 
-For other layers, the _siren_ could be given in such a way: 
+For other layers, the _siren_ could be given in such a way:
 
 `encoder_output = Conv2D(128, (3,3), activation=tf.math.sin, kernel_initializer="he_uniform", padding='same')(encoder_output)`
 
@@ -157,7 +165,7 @@ All the mentioned models proved rather satisfing results on fitting one picture.
 |                       |   *Loss from 50 to 1000 epochs*     |              |
 ![](pics/gifs/reluloss.PNG) |![](pics/gifs/srs_loss.PNG) |![](pics/gifs/siren_loss.PNG)
 
-We can see that the loss is less than ~0.002 respectively after 1000, 300 and 900 epochs. This is the first implication that _siren_ combined with _relu_ is converging remarkably faster then the others. 
+We can see that the loss is less than ~0.002 respectively after 1000, 300 and 900 epochs. This is the first implication that _siren_ combined with _relu_ is converging remarkably faster then the others.
 
 ### Models trained on 40 images
 
@@ -208,7 +216,7 @@ Predictions of the models for test data, where we do not know the ground truth:
 ![](pics/tests/relu/exmp2_relu.gif) |![](pics/tests/srs/exmp2_srs.gif) |![](pics/tests/siren/exmp2_siren.gif)
 ![](pics/tests/relu/ima_other2.png) |![](pics/tests/srs/ima_other5.png) |![](pics/tests/siren/ima_nut2.png)
 
-We can see again that, as these results are saved after 1000 epochs and due that time SRS has overfitted a lot whose signes can be noticed easily from the results. 
+We can see again that, as these results are saved after 1000 epochs and due that time SRS has overfitted a lot whose signes can be noticed easily from the results.
 
 #### Conclusion
 
@@ -237,7 +245,7 @@ We notice that the model overfits on the training dataset: it manages to obtain 
 
 A similar model was also trained on a larger dataset: 7000 images of landscapes (beaches, mountains, forests, icecaps): the testing results were quite bad. This may come from the increased diversity of the images. Therefore, the model did not know which colors to apply depending on the type of images.
 
-Another problem is the size of the model: creating fully connected layers results in a model size proportionate to the square of the resolution of the image. Therefore, this model can only be applied on small images: in order to obtain a colorization of a large image, it would have to be split in small pieces, and then reassembled. 
+Another problem is the size of the model: creating fully connected layers results in a model size proportionate to the square of the resolution of the image. Therefore, this model can only be applied on small images: in order to obtain a colorization of a large image, it would have to be split in small pieces, and then reassembled.
 
 
 # Merging
