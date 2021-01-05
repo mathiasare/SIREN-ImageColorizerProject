@@ -231,6 +231,8 @@ In this part, we use the model present in the paper:
 img_siren = Siren(in_features=48*48, out_features=3*48*48, hidden_features=3*48*48, hidden_layers=3, outermost_linear=True)
 ```
 
+It ensures that the model is correctly initialized and can learn from training.
+
 The model trained consists of 3 layers fully connected with sinus activation function. In order to maintain a size of the model reasonable (less than 5Gb), the images are reduced to 48*48 pixels. The input consists of a black and white image, and the output is the RGB image. The model is trained on batches of size 70, on a dataset of 720 images representing beaches. In the following results, each image is provided from left to right as:
 - output of the model
 - initial RGB image
@@ -258,7 +260,7 @@ A similar model was also trained on a larger dataset: 7000 images of landscapes 
 Another problem is the size of the model: creating fully connected layers results in a model size proportionate to the square of the resolution of the image. Therefore, this model can only be applied on small images: in order to obtain a colorization of a large image, it would have to be split in small pieces, and then reassembled.
 
 
-As a conclusion, SIREN models are capable of associating correct colors on images. However, the training can only be successful on classes of images: thee colorization must be able find similar images in the training dataset in order to be successful on other images. In addition, the colorization should be combined on small parts of images in order to obtain a quality colorization. 
+As a conclusion, SIREN models are capable of associating correct colors on images. However, the training can only be successful on classes of images: thee colorization must be able find similar images in the training dataset in order to be successful on other images. In addition, the colorization should be combined on small parts of images in order to obtain a quality colorization.
 
 
 # Merging
@@ -292,6 +294,10 @@ This step required creating the gradients of the functions by hand: for computat
 ![image_A_rgb](imgs/image_A_rgb.png)
 ![image_B_rgb](imgs/image_B_rgb.png)
 ![image_C_rgb](imgs/image_C_rgb.png)
+
+Although the gradient is only partially computed, the 2 images are correctly merged, with colors being respected. We notice that the precision of the image is reduced. However, this is likely to come only from the gradient formula used. This result is very favorable: SIREN allows merging images so that only main elements of each initial image appear on the final merged image. An application of this is the creation of photoshopped images. Although it is possible not to use SIREN to merge images (simply computing the mean of the gradients), SIREN provides a structure on sets of images: SIREN stored images form a group on which they can be added to obtain realistic additional images.
+
+
 
 # Resizing images using SIREN
 
