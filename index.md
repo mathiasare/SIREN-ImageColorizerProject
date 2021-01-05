@@ -32,7 +32,7 @@ This stability of SIREN models is useful in performing operations on the output 
 
 However, the training of a model using sine activation functions depends highly on the initialization of the activation functions:
 ```
-y=sin(ax+b), a, b \in \mathbb{R}
+y=sin(ax+b), a, b $\in \mathbb{R}$
 ```
 If the initialization is inaccurate, the model may fail at training. The advised strategy to initialize weights is:
 ```
