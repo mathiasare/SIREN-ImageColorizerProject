@@ -31,13 +31,13 @@ This means that SIREN models trained to output an image will provide an output t
 This stability of SIREN models is useful in performing operations on the output of SIREN models: the Fourier transform is compatible with SIREN models (it can be applied to the output of SIREN models), differential equations can be solved with SIREN because the derivative of functions are computed correctly through SIREN, ...
 
 However, the training of a model using sine activation functions depends highly on the initialization of the activation functions:
-```
-y=sin(ax+b), a, b \in \mathbb{R}
-```
+
+$$y=sin(ax+b), a, b \in \mathbb{R}$$
+
 If the initialization is inaccurate, the model may fail at training. The advised strategy to initialize weights is:
-```
-a \tilde \mathbb{U}(-\dfrac{\sqrt{6}}{n}, \dfrac{\sqrt{6}}{n})
-```
+
+$$a \tilde \mathbb{U}(-\dfrac{\sqrt{6}}{n}, \dfrac{\sqrt{6}}{n})$$
+
 n is the number of nodes in the layer. This choice allows the result ax+b to be in $[-\dfrac{\pi}{2}, \dfrac{\pi}{2}]$, and have  a normal distribution. Therefore, the initialization avoids a situation in which a learning step jumps over entire periods of the sine function.
 
 
@@ -218,6 +218,29 @@ Predictions of the models for test data, where we do not know the ground truth:
 ![](pics/tests/relu/ima_other2.png) |![](pics/tests/srs/ima_other5.png) |![](pics/tests/siren/ima_nut2.png)
 
 We can see again that, as these results are saved after 1000 epochs and due that time SRS has overfitted a lot whose signes can be noticed easily from the results.
+
+### Bigger model
+
+Lastly we tried also to train the SRS and FR model on 150 training images in 3 batches of 50 images and over maximally 1500 epochs.
+
+Here are the losses:
+
+| Full_Relu |  Siren_Relu_Siren |
+|:-------------------------:|:-------------------------:|
+|                         *Loss from 50 to ... epochs*|     |
+![](pics/tests/big/relu_loss_150.PNG) |![](pics/tests/big/loss_srs_150.PNG) 
+
+We can see that again SRS is much faster and achieves FR's ending losses in only ~300 epochs. But lets see some of the test results as well:
+
+| Full_Relu |  Siren_Relu_Siren |
+|:-------------------------:|:-------------------------:|
+|      *Predicting test images*      |        |
+![](pics/tests/big/relu_big%20(1).gif) |![](pics/tests/big/srs_big%20(4).gif) 
+![](pics/tests/big/relu_big%20(2).gif) |![](pics/tests/big/srs_big%20(3).gif) 
+![](pics/tests/big/relu_big%20(3).gif) |![](pics/tests/big/srs_big%20(1).gif) 
+![](pics/tests/big/relu_big%20(4).gif) |![](pics/tests/big/srs_big%20(2).gif) 
+
+As we see, SRS tends to be a bit more convincing but as the validation loss is quite same for both models, then we cannot really say which is better in general.
 
 #### Conclusion
 
