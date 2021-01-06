@@ -36,7 +36,7 @@ $$y=sin(ax+b), a, b \in \mathbb{R}$$
 
 If the initialization is inaccurate, the model may fail at training. The advised strategy to initialize weights is:
 
-$$a \tilde \mathbb{U}(-\frac{\sqrt{6}}{n}, \frac{\sqrt{6}}{n})$$
+$$a \sim U\Big(-\dfrac{\sqrt6}{n}, \dfrac{\sqrt6}{n}\Big)$$
 
 n is the number of nodes in the layer. This choice allows the result $ax+b$ to be in $[-\dfrac{\pi}{2}, \dfrac{\pi}{2}]$, and have  a normal distribution. Therefore, the initialization avoids a situation in which a learning step jumps over entire periods of the sine function.
 
@@ -60,7 +60,7 @@ We notice that SIREN results in a smoother result than other activation function
 
 # Colorization
 
-Here we represent what we achieved with colorization.
+Here we represent what we have achieved with colorization.
 
 ## Reusing model
 
@@ -120,8 +120,7 @@ _versions necessary to make the model run in one's computer use tensorflow 1.14.
 
 ### Implementing Siren
 
-
-Firstly, quite difficult implementations were tried but at some point it occurred that the implementation can be done quite easily:
+Then, we had to figure out a way to include or build _siren_ activation function for tensorflow and keras. Firstly, quite difficult implementations were tried but at some point it occurred that the implementation can be done quite easily:
 
 Here is the function to initialize the first layer of the model as described in the article altough the $\omega_0=1/30$ which is different than in the article:
 (In the article $\omega_0=30$ but this provided poor results. We did not figured out why but $\omega_0=1/30$ in contrary worked fine!)
@@ -172,7 +171,7 @@ We can see that the loss is less than ~0.002 respectively after 1000, 300 and 90
 
 As, also stated in the [emil_wallner](https://medium.com/@emilwallner/colorize-b-w-photos-with-a-100-line-neural-network-53d9b4449f8d), first "proper" results started to emerge after training with 40 images. We chose 40 images, mainly portraits and some landscapes, and trained the model on them. For this, as it takes a lot of machine power already, we used Google Colab and adjusted the model to work with GPU.
 
-We used 2 bach training with 20 images each and here is the loss after 1000 epochs of training:
+We used 2 batch training with 20 images each and here is the loss after 1000 epochs of training:
 
 | Full_Relu |  Siren_Relu_Siren | Siren130|
 |:-------------------------:|:-------------------------:|:------------------:|
@@ -181,7 +180,7 @@ We used 2 bach training with 20 images each and here is the loss after 1000 epoc
 
 We can see more or less the same results as before. They achieve loss ~0.002 respectively after 800, 300 and 1000 epochs but the validation loss at these points is approximately 0.0082, 0.009 and 0.009. So, looking at validation loss FR is still the best model but we cannot say that for sure as SRS is converging just so much faster.
 
-Now, lets look at some visual testing and results, so that everyone could judge themselves which models predicts the best after this still rather small scale trainig action.
+Now, lets look at some visual testings and results, so that everyone could judge themselves which models predict the best after this still rather small scaled training action.
 
 Predicted training images compared to ground truth
 
@@ -217,11 +216,11 @@ Predictions of the models for test data, where we do not know the ground truth:
 ![](pics/tests/relu/exmp2_relu.gif) |![](pics/tests/srs/exmp2_srs.gif) |![](pics/tests/siren/exmp2_siren.gif)
 ![](pics/tests/relu/ima_other2.png) |![](pics/tests/srs/ima_other5.png) |![](pics/tests/siren/ima_nut2.png)
 
-We can see again that, as these results are saved after 1000 epochs and due that time SRS has overfitted a lot whose signes can be noticed easily from the results.
+We can see again that, as these results are saved after 1000 epochs and for that time SRS has overfitted a lot. Those signes can be noticed easily from the results.
 
 ### Bigger model
 
-Lastly we tried also to train the SRS and FR model on 150 training images in 3 batches of 50 images and over maximally 1500 epochs.
+Lastly, we tried also to train the SRS and FR model on 150 training images in 3 batches of 50 images and over maximally 1500 epochs.
 
 Here are the losses:
 
@@ -230,7 +229,7 @@ Here are the losses:
 |                         *Loss from 50 to ... epochs*|     |
 ![](pics/tests/big/relu_loss_150.PNG) |![](pics/tests/big/loss_srs_150.PNG) 
 
-We can see that again SRS is much faster and achieves FR's ending losses in only ~300 epochs. But lets see some of the test results as well:
+The FR model suddenly fot stuck after 900 epochs but nevertheless we can see that again SRS is much faster and achieves FR's ending loss in only ~300 epochs. But lets see some of the test results as well:
 
 | Full_Relu |  Siren_Relu_Siren |
 |:-------------------------:|:-------------------------:|
@@ -244,7 +243,7 @@ As we see, SRS tends to be a bit more convincing but as the validation loss is q
 
 #### Conclusion
 
-It is hard to say which of those models is really the best but on thing is sure, _siren_ activation function smartly combined with _relu_ converges approximately 3 times faster than other given models.
+It is hard to say which of those models is really the best but one thing is sure, _siren_ activation function smartly combined with _relu_ converges approximately 3 times faster than other given models.
 
 ##  Fully connected linear layers SIREN colorization model
 
