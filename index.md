@@ -247,11 +247,11 @@ Loss during training:
 
 Training results:
 
-![training_images](imgs/colorization/training_images.png)
+![training_images](imgs/colorization/training_images_2.png)
 
 Testing results:
 
-![testing_images](imgs/colorization/testing_images.png)
+![testing_images](imgs/colorization/testing_images_2.png)
 
 We notice that the model overfits on the training dataset: it manages to obtain far better results on the training data than on the testing data. However, this results in the best outcome: the testing data manages to capture most of the shapes, and a partial colorization.
 
@@ -270,6 +270,8 @@ As a conclusion, SIREN models are capable of associating correct colors on image
 We consider image A and image B, we want to obtain image C as a mix of the 2 initial images. If we merge the images pixel by pixel, we will obtain new colors which we do not want. instead, we want only the main elements of each image to be present. Therefore, we are going to merge the gradients of the 2 images, and then build the image associated to this gradient. This operation does not require the use of SIREN networks. However, it is possible to use them as a storage format of each image.
 
 ![Model](imgs/SIREN_merging.png)
+
+The model used is taken from the article.
 
 ### First test: merging 2 black and white images
 
