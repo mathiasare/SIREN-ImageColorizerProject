@@ -238,6 +238,8 @@ The model trained consists of 3 layers fully connected with sinus activation fun
 - initial RGB image
 - input of the model: a black and white image
 
+This model is not specific to the problem of colorization: it is not optimized for this application. However, it allows observing the ability of SIREN functions for the colorization problem. 
+
 Each layer is fully connected: this model does not use convolution layers to identify categories of objects and shape in the image, but considers the entire image at once. This means that the model is larger in size, but also that the model has a direct perception of the entire image, hence knowing what the image represents.
 
 
@@ -260,7 +262,7 @@ A similar model was also trained on a larger dataset: 7000 images of landscapes 
 Another problem is the size of the model: creating fully connected layers results in a model size proportionate to the square of the resolution of the image. Therefore, this model can only be applied on small images: in order to obtain a colorization of a large image, it would have to be split in small pieces, and then reassembled.
 
 
-As a conclusion, SIREN models are capable of associating correct colors on images. However, the training can only be successful on classes of images: thee colorization must be able find similar images in the training dataset in order to be successful on other images. In addition, the colorization should be combined on small parts of images in order to obtain a quality colorization.
+As a conclusion, SIREN models are likely capable of associating correct colors on images. However, the training can only be successful on classes of images: thee colorization must be able find similar images in the training dataset in order to be successful on other images. In addition, the colorization should be combined on small parts of images in order to obtain a quality colorization. The quality of the colorization depends on the type of model used: the more complex the model, the more variations are tolerable in the testing dataset.
 
 
 # Merging
@@ -271,7 +273,7 @@ We consider image A and image B, we want to obtain image C as a mix of the 2 ini
 
 ![Model](imgs/SIREN_merging.png)
 
-The model used is taken from the article.
+The model used is taken from the article. This model is initially created for simply storing a black and white image. The use of this model for merging is not previously doen in the article. Therefore, the quality of the results is unknown.
 
 ### First test: merging 2 black and white images
 
