@@ -109,6 +109,7 @@ a {
   color: $header-heading-color;
   text-align: center;
   background-image: url("https://www.anotherwindowsblog.com/wp-content/uploads/2010/04/120-ColorSplash-Featured.jpg");
+  background-size:100% 100%;
   @include large {
     padding: 5rem 6rem;
   }
