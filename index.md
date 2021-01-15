@@ -358,6 +358,7 @@ That gave us the idea to see what happens if we try to make the model rescale th
 
 
 ##### Comparison with Nearest Neighbour
+
 | SIREN model  | Nearest Neighbor   | Original image |
 |---|---|---|
 | <img src="pics\super_res_images\result2.png" style="width:2048 px; height:auto;"/>|<img src="pics\super_res_images\nearest.png" style="width:2048 px; height:auto;"/>|<img src="pics\super_res_images\cat475.png" style="width:2048 px; height:auto;"/>
@@ -420,7 +421,7 @@ My personal theory is that the slight smaller loss in the beginning of the train
 Training model on a database of 250 images.
 Predicting on 30 images that were not part of the training set.
 
-##### Data used #####
+#### Data used ####
 
 For this experiment we used a small subset of the DIV2K dataset that has been used for many super resolution competitions and projects in the field.
 
@@ -430,21 +431,21 @@ The images in the dataset were already divided into low resolution and high reso
 Preprossesing the images by worsening the quality of one copy of the image set by upscaling and downscaling repeatedly(using nearest neighbor) and then transforming both image sets to 64x64 size.
 
 
-##### RESULTS #####
+#### RESULTS ####
 
 
-**Images before training**
+##### Images before training #####
 
 ![Pilt3](pics\super_res_images\train1.png)
 
 
 
-**Training with 25 images**
+##### Training with 25 images #####
 ![Pilt3](pics\super_res_images\val5.png)
 
 ![Pilt3](pics\super_res_images\val3.png)
 
-**Training with 250 images**
+##### Training with 250 images #####
 ![Pilt3](pics\super_res_images\val6.png)
 
 
