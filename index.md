@@ -325,6 +325,132 @@ Although the gradient is only partially computed, the 2 images are correctly mer
 
 
 
-# Resizing images using SIREN
+# Super Resolution - Resizing images
 
-...
+#### Idea and planning
+
+As we discussed various ideas of implemeting SIREN for different colorizing/manipulating images we soon came across a tedious subtask that we had to face constantly throughout the course of the whole project: resizing images.
+
+Since the architecture of the neural networks requires the input and output sizes of each layer to be strongly fixed before training the model, we had to rescale images from their original size in most of the experiments to fit them to the model.
+
+That gave us the idea to see what happens if we try to make the model rescale the images instead. As we assumed, the quality of the enlargened image would be worse than the original, because of the data processing inequality priciple, but we were still curious if the model is indeed capable of rescaling the image and how the result would compare to the Nearest Neighbour algorithm that is widely used in rescaling softwares at the present time.
+
+
+
+#### Methods used
+
+1. Training the model on picutre with 128 x 128 size and after training giving it the same picture of 256 x 256 size. Method applied on grayscale and colored images.
+
+2. Training the model on image with 128 x 128 size, but giving it the ground truth of the 256x256 image. The image files were both 256x256 for easier fitting and the smaller image was surrounded by white pixels.
+
+3. Training the model on datasets of 25 images and 250 images and giving the model a test set of images to upscale them and compare results with original images.
+
+
+
+#### Results
+
+1. Training model on picture with 128px size and predicting on 512px image of the same picture.
+
+
+
+
+
+
+
+##### Comparison with Nearest Neighbour
+| SIREN model  | Nearest Neighbor   | Original image |
+|---|---|---|
+| <img src="pics\super_res_images\result2.png" style="width:2048 px; height:auto;"/>|<img src="pics\super_res_images\nearest.png" style="width:2048 px; height:auto;"/>|<img src="pics\super_res_images\cat475.png" style="width:2048 px; height:auto;"/>
+|**MSE:** 0.01865326616405439|**MSE:** 0.012861370847138487|---|
+
+
+
+By training the model 2000 epochs on the smaller image and then using to predict a larger image, the result did not seem very impressive at first: even though the details of the image are accurately represented the picture is still quite foggy overall.
+
+Nevertheless after comparing the model with linear nearest neighbor algorithm (LNN from now on), we found that LNN had a smaller mean square error (MSE), but the photo looked much more pixelated and sharp, which in some cases would be considered a lower quality image compared to the result from the SIREN model. This again shows that MSE is useful as a simple loss function, but is not absolute in terms of the visual quality of images.
+ 
+
+
+
+
+
+2. a) Training model on a 128x128 image, but using 256x256 image as ground truth.
+
+Training process:
+
+5 epochs:
+![Pilt1](pics\super_res_images\rest_test3_5steps.png)
+
+10 epochs:
+![Pilt1](pics\super_res_images\res_test3.png)
+
+20 epochs:
+![Pilt1](pics\super_res_images\res_test3_20steps.png)
+
+1000 epochs:
+![Pilt1](pics\super_res_images\1000.png)
+
+
+ b) Training model on a 128x128 completely white image, but using 256x256 image as ground truth.
+
+
+
+20 epochs:
+![Pilt2](pics\super_res_images\20_white.png)
+
+
+1000 epochs:
+![Pilt1](pics\super_res_images\white1000.png)
+
+
+
+
+Loss function comparison graph
+
+
+![Pilt3](pics\super_res_images\plot2.png)
+
+As shown by the end results of both models and the loss function graph, this kind of method of resizing is simply not correct, because the model is using the bigger image  as the ground truth and it does not matter what you set as the initial image. Our goal with this experiment was to see if this kind of model is smart enough to use the initial image as well in the training process and perhaps stretch the picture into a bigger one if it uses the larger picture as a ground truth. By only observing the outputs of the first 20 epochs of both model one could assume that the model must be behaving differently and reacting to the initial image and that is shown by the graph as well, but in latter steps of the training the loss soon evens out and the end result is almost indentical.
+
+My personal theory is that the slight smaller loss in the beginning of the training cycle of the first model is due to some of the pixels in the smaller image that happen to be still correct after we change the image size.
+
+
+
+
+Training model on a database of 250 images.
+Predicting on 30 images that were not part of the training set.
+
+##### Data used #####
+
+For this experiment we used a small subset of the DIV2K dataset that has been used for many super resolution competitions and projects in the field.
+
+The images in the dataset were already divided into low resolution and high resolution sets. Since the SIREN model we have been using can only deal with images with same resolution and we did not have enough RAM for just upscaling the lower resolution image, we decided to downscale both images to 64x64 size. 
+
+
+Preprossesing the images by worsening the quality of one copy of the image set by upscaling and downscaling repeatedly(using nearest neighbor) and then transforming both image sets to 64x64 size.
+
+
+##### RESULTS #####
+
+
+**Images before training**
+
+![Pilt3](pics\super_res_images\train1.png)
+
+
+
+**Training with 25 images**
+![Pilt3](pics\super_res_images\val5.png)
+
+![Pilt3](pics\super_res_images\val3.png)
+
+**Training with 250 images**
+![Pilt3](pics\super_res_images\val6.png)
+
+
+![Pilt3](pics\super_res_images\val7.png)
+
+At first iterations of testing the results seemed quite promising: the model seemed to improve the picture slightly according to the mse results, but visually the pictures were all very similar to the initial inputs.
+After further investigation it seemed that even though we used mse for both metrics for comparison, the mse function from skimage library gave different results compared to the mse we calculated ourselves using tensors. After some corrections it turned out that the model was predicting the initial input image in most cases and the improvements on some images were so small that it seemed to happen by random chance. Also in some cases it was interesting to see some anomalies added by the model when training with 25 images, which dissapeared when using a larger dataset of 250 images which gave us the impression of steady improvement.
+
+In conclusion we were not very surprised that this approach was not very effective, since most of the modern super resolution models have very sophisticated architectures, using GANs and many other clever techniques, much larger datasets to actually make the model hallucinate more details to the image itself. Also it would have been better if we could have built a model that takes a smaller image as input and upscales it to a bigger size. Nevertheless it was still worth our effort since it gave us better understanding how the model behaves in these kind of pre-learining scenarios.
