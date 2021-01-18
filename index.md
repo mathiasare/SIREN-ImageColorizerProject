@@ -27,6 +27,7 @@ SIREN models use sinus as activation functions. Models build with SIREN are stab
 This means that SIREN models trained to output an image will provide an output that also has a gradient -and laplacian- close to the aimed image.
 
 ![SIREN_gradient](imgs/SIREN_gradient_stable.png)
+*Comparison of the activation functions [^sitz]*
 
 This stability of SIREN models is useful in performing operations on the output of SIREN models: the Fourier transform is compatible with SIREN models (it can be applied to the output of SIREN models), differential equations can be solved with SIREN because the derivative of functions are computed correctly through SIREN, ...
 
@@ -36,7 +37,7 @@ $$y=sin(ax+b), a, b \in \mathbb{R}$$
 
 If the initialization is inaccurate, the model may fail at training. The advised strategy to initialize weights is:
 
-$$a \sim U\Big(-\dfrac{\sqrt6}{n}, \dfrac{\sqrt6}{n}\Big)$$
+$$a \sim U\Big(-\dfrac{\sqrt6}{\sqrt n}, \dfrac{\sqrt6}{\sqrt n}\Big)$$
 
 n is the number of nodes in the layer. This choice allows the result $ax+b$ to be in $[-\dfrac{\pi}{2}, \dfrac{\pi}{2}]$, and have  a normal distribution. Therefore, the initialization avoids a situation in which a learning step jumps over entire periods of the sine function.
 
@@ -44,6 +45,7 @@ n is the number of nodes in the layer. This choice allows the result $ax+b$ to b
 The fundamental use of SIREN models is to store images: a model is trained to output the value of the image on one pixel from the coordinates of the pixel as input. This means that the image is stored within the model, and can be resized at will. One interesting application is to merge images together: a model is trained to output an image which gradient will be the mean of 2 images. In the paper, this experiment was successful on gray images.
 
 ![SIREN_gradient](imgs/SIREN_merging_gray.png)
+*Merging of images [^sitz]*
 
 The resulting image is realistic, since it focuses on the main elements of each image.
 
@@ -51,6 +53,7 @@ The resulting image is realistic, since it focuses on the main elements of each 
 Another application of SIREN models is the representation of shapes: the model will store a specific shape, trying to be as realistic as possible.
 
 ![SIREN_gradient](imgs/SIREN_shape.png)
+*Comparison of the activation functions in shape learning [^sitz]*
 
 We notice that SIREN results in a smoother result than other activation functions.
 
@@ -169,7 +172,7 @@ We can see that the loss is less than ~0.002 respectively after 1000, 300 and 90
 
 ### Models trained on 40 images
 
-As, also stated in the [emil_wallner](https://medium.com/@emilwallner/colorize-b-w-photos-with-a-100-line-neural-network-53d9b4449f8d), first "proper" results started to emerge after training with 40 images. We chose 40 images, mainly portraits and some landscapes, and trained the model on them. For this, as it takes a lot of machine power already, we used Google Colab and adjusted the model to work with GPU.
+As, also stated in the [emil_wallner](https://medium.com/@emilwallner/colorize-b-w-photos-with-a-100-line-neural-network-53d9b4449f8d), first "proper" results started to emerge after training with 40 images of size 256x256. We chose 40 images, mainly portraits and some landscapes, and trained the model on them. For this, as it takes a lot of machine power already, we used Google Colab and adjusted the model to work with GPU.
 
 We used 2 batch training with 20 images each and here is the loss after 1000 epochs of training:
 
@@ -295,7 +298,7 @@ We consider image A and image B, we want to obtain image C as a mix of the 2 ini
 
 ![Model](imgs/SIREN_merging.png)
 
-The model used is taken from the article. This model is initially created for simply storing a black and white image. The use of this model for merging is not previously doen in the article. Therefore, the quality of the results is unknown.
+The model used is taken from the article. This model is initially created for simply storing a black and white image. The model for merging is not pre-done in the article. Therefore, the quality of the results is unknown.
 
 ### First test: merging 2 black and white images
 
