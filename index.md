@@ -327,7 +327,7 @@ Although the gradient is only partially computed, the 2 images are correctly mer
 
 # Super Resolution - Resizing images
 
-#### Idea and planning
+### Idea and planning
 
 As we discussed various ideas of implemeting SIREN for different colorizing/manipulating images we soon came across a tedious subtask that we had to face constantly throughout the course of the whole project: resizing images.
 
@@ -337,7 +337,7 @@ That gave us the idea to see what happens if we try to make the model rescale th
 
 
 
-#### Methods used
+### Methods used
 
 1. Training the model on picutre with 128 x 128 size and after training giving it the same picture of 256 x 256 size. Method applied on grayscale and colored images.
 
@@ -347,9 +347,9 @@ That gave us the idea to see what happens if we try to make the model rescale th
 
 
 
-#### Results
+### Results
 
-1. Training model on picture with 128px size and predicting on 512px image of the same picture.
+#### 1. Training model on picture with 128px size and predicting on 512px image of the same picture.
 
 
 
@@ -359,11 +359,11 @@ That gave us the idea to see what happens if we try to make the model rescale th
 
 ##### Comparison with Nearest Neighbour
 
-| SIREN model  | Nearest Neighbor   | Original image |
-|---|---|---|
-| <img src="pics\super_res_images\result2.png" style="width:2048 px; height:auto;"/>|<img src="pics\super_res_images\nearest.png" style="width:2048 px; height:auto;"/>|<img src="pics\super_res_images\cat475.png" style="width:2048 px; height:auto;"/>
-|**MSE:** 0.01865326616405439|**MSE:** 0.012861370847138487|---|
-
+| Model used  | Output   | MSE |
+|--------|-------|-------|
+| SIREN model|<img src="pics\super_res_images\result2.png" style="width:2000px; height:auto;"/>|**MSE:** 0.01865326616405439|
+|Linear Nearest Neighbor (LNN)|<img src="pics\super_res_images\nearest.png" style="width:2000px; height: 800 px;"/>|**MSE:** 0.012861370847138487|
+|Ground truth (original image) |<img src="pics\super_res_images\cat475.png" style="width:2048 px; height:auto;"/>|-|
 
 
 By training the model 2000 epochs on the smaller image and then using to predict a larger image, the result did not seem very impressive at first: even though the details of the image are accurately represented the picture is still quite foggy overall.
@@ -375,9 +375,19 @@ Nevertheless after comparing the model with linear nearest neighbor algorithm (L
 
 
 
-2. a) Training model on a 128x128 image, but using 256x256 image as ground truth.
+#### 2. a) Training model on a 128x128 image, but using 256x256 image as ground truth.
 
-Training process:
+### Training process:
+
+<div style="width:80%;">
+
+<ul style="display:flex; justify-content: space-between; flex-direction: row; font-weight:bold; list-style-type: none;">
+<li>Image output </li>
+<li>Gradient</li>
+<li>Laplacian</li>
+</ul>
+
+</div>
 
 5 epochs:
 ![Pilt1](pics\super_res_images\rest_test3_5steps.png)
@@ -394,7 +404,15 @@ Training process:
 
  b) Training model on a 128x128 completely white image, but using 256x256 image as ground truth.
 
+<div style="width:80%;">
 
+<ul style="display:flex; justify-content: space-between; flex-direction: row; font-weight:bold; list-style-type: none;">
+<li>Image output </li>
+<li>Gradient</li>
+<li>Laplacian</li>
+</ul>
+
+</div>
 
 20 epochs:
 ![Pilt2](pics\super_res_images\20_white.png)
@@ -436,16 +454,49 @@ Preprossesing the images by worsening the quality of one copy of the image set b
 
 ##### Images before training #####
 
+<div style="width:85%;">
+
+<ul style="display:flex; justify-content: space-between; flex-direction: row; font-weight:bold; list-style-type: none;">
+<li>Lower quality image </li>
+<li></li>
+<li>Higher quality image</li>
+</ul>
+
+</div>
+
 ![Pilt3](pics\super_res_images\train1.png)
 
 
 
 ##### Training with 25 images #####
+
+<div style="width:87%;">
+
+<ul style="display:flex; justify-content: space-between; flex-direction: row; font-weight:bold; list-style-type: none;">
+<li>Model output </li>
+<li>Target image</li>
+<li>Input image</li>
+</ul>
+
+</div>
+
 ![Pilt3](pics\super_res_images\val5.png)
 
 ![Pilt3](pics\super_res_images\val3.png)
 
 ##### Training with 250 images #####
+
+<div style="width:87%;">
+
+<ul style="display:flex; justify-content: space-between; flex-direction: row; font-weight:bold; list-style-type: none;">
+<li>Model output </li>
+<li>Target image</li>
+<li>Input image</li>
+</ul>
+
+</div>
+
+
 ![Pilt3](pics\super_res_images\val6.png)
 
 
