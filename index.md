@@ -15,8 +15,8 @@ SIREN is a periodic activation function described in [^sitz]. It has proven bett
 
 The project is divided into three phases:
 1. Experimenting with SIREN in the given Collab environment and getting acqainted with the concept.
-2. Trying out b/w image colorization, merging and resizing.
-3. **Building the SIREN based NN to colorize images**
+2. Trying out b/w image colorization and trying to make it work with SIREN
+3. Merging and resizing with SIREN.
 
 The original SIREN paper github link: [SIREN](https://github.com/vsitzmann/siren)
 
