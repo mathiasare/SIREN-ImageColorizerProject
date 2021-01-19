@@ -505,6 +505,7 @@ Preprossesing the images by worsening the quality of one copy of the image set b
 
 ![Pilt3](pics\super_res_images\val7.png)
 
+
 At first iterations of testing the results seemed quite promising: the model seemed to improve the picture slightly according to the mse results, but visually the pictures were all very similar to the initial inputs.
 After further investigation it seemed that even though we used mse for both metrics for comparison, the mse function from skimage library gave different results compared to the mse we calculated ourselves using tensors. After some corrections it turned out that the model was predicting the initial input image in most cases and the improvements on some images were so small that it seemed to happen by random chance. Also in some cases it was interesting to see some anomalies added by the model when training with 25 images, which dissapeared when using a larger dataset of 250 images which gave us the impression of steady improvement.
 
